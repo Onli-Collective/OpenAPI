@@ -1,0 +1,17 @@
+[package]
+name = "openapi"
+version = "3.0.3"
+edition = "2024"
+
+[dependencies]
+indexmap = { version = "2.14.2", features = ["serde"] }
+mail-parser = { version = "0.11.9", features = ["serde"] }
+nom = "8.0.0"
+regex = "1.13.1"
+regress = "0.12.0"
+semver = { version = "1.0.28", features = ["serde"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = { version = "1.0.151", features = ["indexmap"] }
+serde_yaml = { package = "yaml_serde", version = "0.10.7" }
+
+[dev-dependencies]
