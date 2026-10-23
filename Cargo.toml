@@ -2,6 +2,7 @@
 name = "openapi"
 version = "3.0.3"
 edition = "2024"
+license = "MIT OR Apache-2.0"
 
 [dependencies]
 indexmap = { version = "2.14.2", features = ["serde"] }
