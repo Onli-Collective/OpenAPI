@@ -920,7 +920,7 @@ pub struct Schema {
     /// Omitting this keyword has the same behavior as a value of 0.
     ///
     /// [JSON Schema Validation, Section 6.7](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.7)
-    #[serde(default, rename = "minLength")]
+    #[serde(default, skip_serializing_if = "is_default", rename = "minLength")]
     pub min_length: usize,
     /// This string SHOULD be a valid regular expression, according to the ECMA 262 regular expression dialect.
     ///
@@ -941,7 +941,7 @@ pub struct Schema {
     /// Omitting this keyword has the same behavior as a value of 0.
     ///
     /// [JSON Schema Validation, Section 6.12](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.12)
-    #[serde(default, rename = "minItems")]
+    #[serde(default, skip_serializing_if = "is_default", rename = "minItems")]
     pub min_items: usize,
 
     /// If this keyword has boolean value `true`, the instance validates successfully if all of its elements are unique.
@@ -965,7 +965,7 @@ pub struct Schema {
     /// Omitting this keyword has the same behavior as a value of 0.
     ///
     /// [JSON Schema Validation, Section 6.16](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.16)
-    #[serde(default, rename = "minProperties")]
+    #[serde(default, skip_serializing_if = "is_default", rename = "minProperties")]
     pub min_properties: usize,
 
     /// An object instance is valid against this keyword if every item in the array is the name of a property in the instance.
@@ -973,7 +973,7 @@ pub struct Schema {
     /// Omitting this keyword has the same behavior as an empty array.
     ///
     /// [JSON Schema Validation, Section 6.17](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.17)
-    #[serde(default, rename = "required")]
+    #[serde(default, skip_serializing_if = "is_default", rename = "required")]
     pub required: IndexSet<String>,
 
     /// An instance validates successfully against this keyword if its value is equal to one of the elements in this keyword's array value.
@@ -981,7 +981,7 @@ pub struct Schema {
     /// Elements in the array might be of any value, including null.
     ///
     /// [JSON Schema Validation, Section 6.23](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.23)
-    #[serde(default, rename = "enum")]
+    #[serde(default, skip_serializing_if = "is_default", rename = "enum")]
     pub enum_: IndexSet<serde_json::Value>,
 
     /// An instance validates if and only if the instance is in any of the sets listed for this keyword ([Type]).
@@ -1047,7 +1047,8 @@ pub struct Schema {
     /// [JSON Schema Validation, Section 6.20](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.20)
     #[serde(
         default = "default_additional_properties",
-        rename = "additionalProperties"
+        rename = "additionalProperties",
+        skip_serializing_if = "is_default_additional_properties"
     )]
     pub additional_properties: Either<bool, ReferenceOr<Box<Self>>>,
 
@@ -1117,7 +1118,12 @@ pub struct Schema {
     /// A free-form property to include an example of an instance for this schema.
     /// To represent examples that cannot be naturally represented in JSON or YAML,
     /// a string value can be used to contain the example with escaping where necessary.
-    #[serde(default, rename = "example", deserialize_with = "allow_null")]
+    #[serde(
+        default,
+        skip_serializing_if = "is_default",
+        rename = "example",
+        deserialize_with = "allow_null"
+    )]
     pub example: Option<serde_json::Value>,
     /// Specifies that a schema is deprecated and **SHOULD** be transitioned out of usage.
     ///
@@ -1134,6 +1140,9 @@ fn allow_null<'de, D: Deserializer<'de>>(
 
 fn default_additional_properties() -> Either<bool, ReferenceOr<Box<Schema>>> {
     Either::Left(true)
+}
+fn is_default_additional_properties(either: &Either<bool, ReferenceOr<Box<Schema>>>) -> bool {
+    matches!(either, Either::Left(true))
 }
 
 /// [JSON Schema Validation, Section 6.25](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.25)
@@ -1270,7 +1279,7 @@ pub enum SecurityScheme {
     #[serde(rename = "apiKey")]
     ApiKey {
         ///  A short description for security scheme. [[CommonMark](https://spec.commonmark.org/)] syntax **MAY** be used for rich text representation.
-        #[serde(default, rename = "description")]
+        #[serde(default, skip_serializing_if = "is_default", rename = "description")]
         description: Option<String>,
         /// **REQUIRED**. The name of the header, query or cookie parameter to be used.
         #[serde(rename = "name")]
@@ -1286,14 +1295,14 @@ pub enum SecurityScheme {
     #[serde(rename = "http")]
     Http {
         /// A short description for security scheme. [[CommonMark](https://spec.commonmark.org/)] syntax **MAY** be used for rich text representation.
-        #[serde(default, rename = "description")]
+        #[serde(default, skip_serializing_if = "is_default", rename = "description")]
         description: Option<String>,
         // TODO: This technically could be another enum type, but it needs an overflow variant...
         /// **REQUIRED**. The name of the HTTP Authorization scheme to be used in the Authorization header as defined in [[RFC7235](https://httpwg.org/specs/rfc7235.html)] [Section 4.2](https://httpwg.org/specs/rfc7235.html#section-4.2). The values used **SHOULD** be registered in the IANA Authentication Scheme registry.
         #[serde(rename = "scheme")]
         scheme: String,
         /// A hint to the client to identify how the bearer token is formatted. Bearer tokens are usually generated by an authorization server, so this information is primarily for documentation purposes.
-        #[serde(default, rename = "bearerFormat")]
+        #[serde(default, skip_serializing_if = "is_default", rename = "bearerFormat")]
         bearer_format: Option<String>,
 
         /// This object **MAY** be extended with [Specification Extensions](Extensions).
@@ -1303,7 +1312,7 @@ pub enum SecurityScheme {
     #[serde(rename = "oauth2")]
     Oauth2 {
         ///  A short description for security scheme. [[CommonMark](https://spec.commonmark.org/)] syntax **MAY** be used for rich text representation.
-        #[serde(default, rename = "description")]
+        #[serde(default, skip_serializing_if = "is_default", rename = "description")]
         description: Option<String>,
         /// **REQUIRED**. An object containing configuration information for the flow types supported.
         #[serde(rename = "flows")]
@@ -1316,7 +1325,7 @@ pub enum SecurityScheme {
     #[serde(rename = "openIdConnect")]
     OpenIdConnect {
         ///  A short description for security scheme. [[CommonMark](https://spec.commonmark.org/)] syntax **MAY** be used for rich text representation.
-        #[serde(default, rename = "description")]
+        #[serde(default, skip_serializing_if = "is_default", rename = "description")]
         description: Option<String>,
         /// **REQUIRED**. OpenId Connect URL to discover OAuth2 configuration values. This **MUST** be in the form of a URL.
         #[serde(rename = "openIdConnectUrl")]
