@@ -1168,14 +1168,23 @@ pub enum Type {
 /// [Modified](https://spec.openapis.org/oas/v3.0.3.html#data-types) from [OpenAPI Specification, Section 4.4](https://spec.openapis.org/oas/v3.0.3.html#data-types)
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Format {
+    /// Signed 32 bits [i32]
     Int32,
+    /// Signed 64 bits [i64]
     Int64,
+    /// [f32]
     Float,
+    /// [f64]
     Double,
+    /// Base64-encoded characters
     Byte,
+    /// Any sequence of octets (bytes)
     Binary,
+    ///  As defined by `full-date` - [[RFC3339](https://www.rfc-editor.org/info/rfc3339/)] [Section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6)
     Date,
+    ///  As defined by `date-time` - [[RFC3339](https://www.rfc-editor.org/info/rfc3339/)] [Section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6)
     DateTime,
+    /// A hint to UIs to obscure input
     Password,
     Other(String),
 }
