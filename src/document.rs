@@ -895,7 +895,7 @@ pub struct Schema {
         skip_serializing_if = "is_default",
         rename = "exclusiveMaximum"
     )]
-    pub exclusive_maximum: bool,
+    pub exclusive_maximum: Option<bool>,
     /// Represents an inclusive lower limit for a numeric instance.
     ///
     /// [JSON Schema Validation, Section 5.4](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.4)
@@ -909,7 +909,7 @@ pub struct Schema {
         skip_serializing_if = "is_default",
         rename = "exclusiveMinimum"
     )]
-    pub exclusive_minimum: bool,
+    pub exclusive_minimum: Option<bool>,
     /// A string instance is valid against this keyword if its length is less than, or equal to, the value of this keyword.
     ///
     /// [JSON Schema Validation, Section 5.6](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.6)
@@ -921,7 +921,7 @@ pub struct Schema {
     ///
     /// [JSON Schema Validation, Section 5.7](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.7)
     #[serde(default, skip_serializing_if = "is_default", rename = "minLength")]
-    pub min_length: usize,
+    pub min_length: Option<usize>,
     /// This string SHOULD be a valid regular expression, according to the ECMA 262 regular expression dialect.
     ///
     /// A string instance is considered valid if the regular expression matches the instance successfully.
@@ -942,7 +942,7 @@ pub struct Schema {
     ///
     /// [JSON Schema Validation, Section 5.11](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.11)
     #[serde(default, skip_serializing_if = "is_default", rename = "minItems")]
-    pub min_items: usize,
+    pub min_items: Option<usize>,
 
     /// If this keyword has boolean value `true`, the instance validates successfully if all of its elements are unique.
     ///
@@ -952,7 +952,7 @@ pub struct Schema {
     ///
     /// [JSON Schema Validation, Section 5.12](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.12)
     #[serde(default, skip_serializing_if = "is_default", rename = "uniqueItems")]
-    pub unique_items: bool,
+    pub unique_items: Option<bool>,
 
     /// An object instance is valid against ["maxProperties"](Self::max_properties) if its number of properties is less than, or equal to, the value of this keyword.
     ///
@@ -966,7 +966,7 @@ pub struct Schema {
     ///
     /// [JSON Schema Validation, Section 5.14](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.14)
     #[serde(default, skip_serializing_if = "is_default", rename = "minProperties")]
-    pub min_properties: usize,
+    pub min_properties: Option<usize>,
 
     /// An object instance is valid against this keyword if every item in the array is the name of a property in the instance.
     ///
@@ -974,7 +974,7 @@ pub struct Schema {
     ///
     /// [JSON Schema Validation, Section 5.15](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.15)
     #[serde(default, skip_serializing_if = "is_default", rename = "required")]
-    pub required: IndexSet<String>,
+    pub required: Option<IndexSet<String>>,
 
     /// An instance validates successfully against this keyword if its value is equal to one of the elements in this keyword's array value.
     ///
@@ -982,7 +982,7 @@ pub struct Schema {
     ///
     /// [JSON Schema Validation, Section 5.20](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.20)
     #[serde(default, skip_serializing_if = "is_default", rename = "enum")]
-    pub enum_: IndexSet<serde_json::Value>,
+    pub enum_: Option<IndexSet<serde_json::Value>>,
 
     /// An instance validates if and only if the instance is in any of the sets listed for this keyword ([Type]).
     ///
@@ -1046,11 +1046,11 @@ pub struct Schema {
     ///
     /// [JSON Schema Validation, Section 5.18](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.18)
     #[serde(
-        default = "default_additional_properties",
+        default,
         rename = "additionalProperties",
-        skip_serializing_if = "is_default_additional_properties"
+        skip_serializing_if = "is_default"
     )]
-    pub additional_properties: Either<bool, ReferenceOr<Box<Self>>>,
+    pub additional_properties: Option<Either<bool, ReferenceOr<Box<Self>>>>,
 
     /// Allows interoperable semantic validation for a fixed subset of values which are accurately described by authoritative resources, be they RFCs or other external specifications.
     ///
@@ -1072,7 +1072,7 @@ pub struct Schema {
     /// Other Schema Object constraints retain their defined behavior, and therefore may disallow the use of null as a value.
     /// A `false` value leaves the specified or default type unmodified. The default value is `false`.
     #[serde(default, skip_serializing_if = "is_default", rename = "nullable")]
-    pub nullable: bool,
+    pub nullable: Option<bool>,
     /// Adds support for polymorphism.
     ///
     /// The [discriminator](Discriminator) is an object name that is used to differentiate between other schemas which may satisfy the payload description.
@@ -1092,7 +1092,7 @@ pub struct Schema {
     ///
     /// Default value is `false`.
     #[serde(default, skip_serializing_if = "is_default", rename = "readOnly")]
-    pub read_only: bool,
+    pub read_only: Option<bool>,
     /// Relevant only for Schema [`"properties"`](Self::properties) definitions.
     ///
     /// Declares the property as “write only”.
@@ -1105,7 +1105,7 @@ pub struct Schema {
     ///
     /// Default value is `false`.
     #[serde(default, skip_serializing_if = "is_default", rename = "writeOnly")]
-    pub write_only: bool,
+    pub write_only: Option<bool>,
     /// This **MAY** be used only on properties schemas.
     ///
     /// It has no effect on root schemas.
@@ -1129,20 +1129,13 @@ pub struct Schema {
     ///
     /// Default value is `false`.
     #[serde(default, skip_serializing_if = "is_default", rename = "deprecated")]
-    pub deprecated: bool,
+    pub deprecated: Option<bool>,
 }
 
 fn allow_null<'de, D: Deserializer<'de>>(
     deserializer: D,
 ) -> Result<Option<serde_json::Value>, D::Error> {
     Ok(Some(Deserialize::deserialize(deserializer)?))
-}
-
-fn default_additional_properties() -> Either<bool, ReferenceOr<Box<Schema>>> {
-    Either::Left(true)
-}
-fn is_default_additional_properties(either: &Either<bool, ReferenceOr<Box<Schema>>>) -> bool {
-    matches!(either, Either::Left(true))
 }
 
 /// [JSON Schema Validation, Section 6.25](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.25)
