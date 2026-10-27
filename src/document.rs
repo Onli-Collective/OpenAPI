@@ -865,74 +865,74 @@ pub struct Schema {
     ///
     /// Can be used to decorate a user interface with information about the data produced by this user interface.
     ///
-    /// [JSON Schema Validation, Section 7.2](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-7.2)
+    /// [JSON Schema Validation, Section 6.1](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-6.1)
     #[serde(default, skip_serializing_if = "is_default", rename = "title")]
     pub title: Option<String>,
     /// Provides explanation about the purpose of the instance described by this schema.
     ///
     /// Can be used to decorate a user interface with information about the data produced by this user interface.
     ///
-    ///  [JSON Schema Validation, Section 7.2](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-7.2)
+    ///  [JSON Schema Validation, Section 6.1](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-6.1)
     #[serde(default, skip_serializing_if = "is_default", rename = "description")]
     pub description: Option<String>,
     /// A numeric instance is valid only if division by this keyword's value results in an integer.
     ///
     /// The value of "multipleOf" MUST be a number, strictly greater than 0.
     ///
-    /// [JSON Schema Validation, Section 6.1](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.1)
+    /// [JSON Schema Validation, Section 5.1](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.1)
     #[serde(default, skip_serializing_if = "is_default", rename = "multipleOf")]
     pub multiple_of: Option<f64>,
     /// Represents an inclusive upper limit for a numeric instance.
     ///
-    /// [JSON Schema Validation, Section 6.2](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.2)
+    /// [JSON Schema Validation, Section 5.2](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.2)
     #[serde(default, skip_serializing_if = "is_default", rename = "maximum")]
     pub maximum: Option<f64>,
     /// Represents an exclusive upper limit for a numeric instance.
     ///
-    /// [JSON Schema Validation, Section 6.3](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.3)
+    /// [JSON Schema Validation, Section 5.3](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.3)
     #[serde(
         default,
         skip_serializing_if = "is_default",
         rename = "exclusiveMaximum"
     )]
-    pub exclusive_maximum: Option<f64>,
+    pub exclusive_maximum: bool,
     /// Represents an inclusive lower limit for a numeric instance.
     ///
-    /// [JSON Schema Validation, Section 6.4](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.4)
+    /// [JSON Schema Validation, Section 5.4](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.4)
     #[serde(default, skip_serializing_if = "is_default", rename = "minimum")]
     pub minimum: Option<f64>,
     /// Represents an exclusive lower limit for a numeric instance.
     ///
-    /// [JSON Schema Validation, Section 6.5](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.5)
+    /// [JSON Schema Validation, Section 5.5](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.5)
     #[serde(
         default,
         skip_serializing_if = "is_default",
         rename = "exclusiveMinimum"
     )]
-    pub exclusive_minimum: Option<f64>,
+    pub exclusive_minimum: bool,
     /// A string instance is valid against this keyword if its length is less than, or equal to, the value of this keyword.
     ///
-    /// [JSON Schema Validation, Section 6.6](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.6)
+    /// [JSON Schema Validation, Section 5.6](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.6)
     #[serde(default, skip_serializing_if = "is_default", rename = "maxLength")]
     pub max_length: Option<usize>,
     /// A string instance is valid against this keyword if its length is greater than, or equal to, the value of this keyword.
     ///
     /// Omitting this keyword has the same behavior as a value of 0.
     ///
-    /// [JSON Schema Validation, Section 6.7](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.7)
+    /// [JSON Schema Validation, Section 5.7](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.7)
     #[serde(default, skip_serializing_if = "is_default", rename = "minLength")]
     pub min_length: usize,
     /// This string SHOULD be a valid regular expression, according to the ECMA 262 regular expression dialect.
     ///
     /// A string instance is considered valid if the regular expression matches the instance successfully.
     ///
-    /// [JSON Schema Validation, Section 6.8](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.8)
+    /// [JSON Schema Validation, Section 5.8](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.8)
     #[serde(default, skip_serializing_if = "is_default", rename = "pattern")]
     pub pattern: Option<String>,
 
     /// An array instance is valid against ["max_items"](Self::max_items) if its size is less than, or equal to, the value of this keyword.
     ///
-    /// [JSON Schema Validation, Section 6.11](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.11)
+    /// [JSON Schema Validation, Section 5.10](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.10)
     #[serde(default, skip_serializing_if = "is_default", rename = "maxItems")]
     pub max_items: Option<usize>,
 
@@ -940,7 +940,7 @@ pub struct Schema {
     ///
     /// Omitting this keyword has the same behavior as a value of 0.
     ///
-    /// [JSON Schema Validation, Section 6.12](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.12)
+    /// [JSON Schema Validation, Section 5.11](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.11)
     #[serde(default, skip_serializing_if = "is_default", rename = "minItems")]
     pub min_items: usize,
 
@@ -950,13 +950,13 @@ pub struct Schema {
     ///
     /// Omitting this keyword has the same behavior as a value of `false`.
     ///
-    /// [JSON Schema Validation, Section 6.13](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.13)
+    /// [JSON Schema Validation, Section 5.12](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.12)
     #[serde(default, skip_serializing_if = "is_default", rename = "uniqueItems")]
     pub unique_items: bool,
 
     /// An object instance is valid against ["maxProperties"](Self::max_properties) if its number of properties is less than, or equal to, the value of this keyword.
     ///
-    /// [JSON Schema Validation, Section 6.15](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.15)
+    /// [JSON Schema Validation, Section 5.13](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.13)
     #[serde(default, skip_serializing_if = "is_default", rename = "maxProperties")]
     pub max_properties: Option<usize>,
 
@@ -964,7 +964,7 @@ pub struct Schema {
     ///
     /// Omitting this keyword has the same behavior as a value of 0.
     ///
-    /// [JSON Schema Validation, Section 6.16](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.16)
+    /// [JSON Schema Validation, Section 5.14](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.14)
     #[serde(default, skip_serializing_if = "is_default", rename = "minProperties")]
     pub min_properties: usize,
 
@@ -972,7 +972,7 @@ pub struct Schema {
     ///
     /// Omitting this keyword has the same behavior as an empty array.
     ///
-    /// [JSON Schema Validation, Section 6.17](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.17)
+    /// [JSON Schema Validation, Section 5.15](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.15)
     #[serde(default, skip_serializing_if = "is_default", rename = "required")]
     pub required: IndexSet<String>,
 
@@ -980,13 +980,13 @@ pub struct Schema {
     ///
     /// Elements in the array might be of any value, including null.
     ///
-    /// [JSON Schema Validation, Section 6.23](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.23)
+    /// [JSON Schema Validation, Section 5.20](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.20)
     #[serde(default, skip_serializing_if = "is_default", rename = "enum")]
     pub enum_: IndexSet<serde_json::Value>,
 
     /// An instance validates if and only if the instance is in any of the sets listed for this keyword ([Type]).
     ///
-    /// [JSON Schema Validation, Section 6.25](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.25)
+    /// [JSON Schema Validation, Section 5.21](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.21)
     #[serde(default, skip_serializing_if = "is_default", rename = "type")]
     pub type_: Option<Type>,
 
@@ -994,7 +994,7 @@ pub struct Schema {
     ///
     /// This keyword's value MUST be a non-empty array.
     ///
-    /// [JSON Schema Validation, Section 6.26](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.26)
+    /// [JSON Schema Validation, Section 5.22](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.22)
     #[serde(default, skip_serializing_if = "is_default", rename = "allOf")]
     pub all_of: Option<Vec<ReferenceOr<Self>>>,
 
@@ -1002,7 +1002,7 @@ pub struct Schema {
     ///
     /// This keyword's value MUST be a non-empty array.
     ///
-    /// [JSON Schema Validation, Section 6.27](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.27)
+    /// [JSON Schema Validation, Section 5.24](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.24)
     #[serde(default, skip_serializing_if = "is_default", rename = "oneOf")]
     pub one_of: Option<Vec<ReferenceOr<Self>>>,
 
@@ -1010,13 +1010,13 @@ pub struct Schema {
     ///
     /// This keyword's value MUST be a non-empty array.
     ///
-    /// [JSON Schema Validation, Section 6.28](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.28)
+    /// [JSON Schema Validation, Section 5.23](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.23)
     #[serde(default, skip_serializing_if = "is_default", rename = "anyOf")]
     pub any_of: Option<Vec<ReferenceOr<Self>>>,
 
     /// An instance is valid against this keyword if it fails to validate successfully against the schema defined by this keyword.
     ///
-    /// [JSON Schema Validation, Section 6.29](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.29)
+    /// [JSON Schema Validation, Section 5.25](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.25)
     #[serde(default, skip_serializing_if = "is_default", rename = "not")]
     pub not: Option<ReferenceOr<Box<Self>>>,
 
@@ -1024,7 +1024,7 @@ pub struct Schema {
     ///
     /// Omitting this keyword has the same behavior as an empty schema.
     ///
-    /// [JSON Schema Validation, Section 6.9](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.9)
+    /// [JSON Schema Validation, Section 5.9](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.9)
     #[serde(default, skip_serializing_if = "is_default", rename = "items")]
     pub items: Option<ReferenceOr<Box<Self>>>,
 
@@ -1032,7 +1032,7 @@ pub struct Schema {
     ///
     /// Omitting this keyword has the same behavior as an empty object.
     ///
-    /// [JSON Schema Validation, Section 6.18](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.18)
+    /// [JSON Schema Validation, Section 5.16](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.16)
     #[serde(default, skip_serializing_if = "is_default", rename = "properties")]
     pub properties: Option<IndexMap<String, ReferenceOr<Self>>>,
 
@@ -1044,7 +1044,7 @@ pub struct Schema {
     ///
     /// Omitting this keyword has the same behavior as having ["additionalProperties"](Self::additional_properties) set to true.
     ///
-    /// [JSON Schema Validation, Section 6.20](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.20)
+    /// [JSON Schema Validation, Section 5.18](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.18)
     #[serde(
         default = "default_additional_properties",
         rename = "additionalProperties",
@@ -1054,12 +1054,12 @@ pub struct Schema {
 
     /// Allows interoperable semantic validation for a fixed subset of values which are accurately described by authoritative resources, be they RFCs or other external specifications.
     ///
-    /// [JSON Schema Validation, Section 8](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-8)
+    /// [JSON Schema Validation, Section 7](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-7)
     #[serde(default, skip_serializing_if = "is_default", rename = "format")]
     pub format: Option<Format>,
     /// This keyword can be used to supply a default JSON value associated with a particular schema.  A default value MUST be valid against the associated schema.
     ///
-    /// [Modified](https://spec.openapis.org/oas/v3.0.3.html#properties) from [JSON Schema Validation, Section 7.3](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-7.3)
+    /// [Modified](https://spec.openapis.org/oas/v3.0.3.html#properties) from [JSON Schema Validation, Section 6.2](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-6.2)
     #[serde(default, skip_serializing_if = "is_default", rename = "default")]
     pub default: Option<serde_json::Value>,
 
@@ -1145,7 +1145,7 @@ fn is_default_additional_properties(either: &Either<bool, ReferenceOr<Box<Schema
     matches!(either, Either::Left(true))
 }
 
-/// [JSON Schema Validation, Section 6.25](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-01#section-6.25)
+/// [JSON Schema Validation, Section 6.25](https://datatracker.ietf.org/doc/html/draft-wright-json-schema-validation-00#section-5.25)
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 pub enum Type {
     #[serde(rename = "null")]
